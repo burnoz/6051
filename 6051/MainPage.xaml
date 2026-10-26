@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="_6051.MainPage"
+             Title="Widget de Fotos">
+
+    <Grid RowDefinitions="Auto, Auto, *" Padding="20" RowSpacing="16">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="6">
+            <Label
+                Text="Mis Fotos para el Widget"
+                Style="{StaticResource Headline}"
+                HorizontalOptions="Start" />
+            <Label
+                x:Name="StatusLabel"
+                Text="Elige las fotos que quieres mostrar en tu pantalla principal."
+                FontSize="14"
+                TextColor="{AppThemeBinding Light=#555555, Dark=#BBBBBB}" />
+        </VerticalStackLayout>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*, Auto" ColumnSpacing="10">
+            <Button
+                Grid.Column="0"
+                Text="+ Agregar fotos"
+                Clicked="OnAddPhotosClicked"
+                FontAttributes="Bold" />
+            <Button
+                Grid.Column="1"
+                Text="Limpiar todo"
+                Clicked="OnClearPhotosClicked"
+                BackgroundColor="#D9534F"
+                TextColor="White" />
+        </Grid>
+
+        <CollectionView
+            Grid.Row="2"
+            x:Name="PhotosCollectionView"
+            SelectionMode="None">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Spacing="10"
+                    Padding="20">
+                    <Label
+                        Text="No has agregado fotos todavía"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        HorizontalTextAlignment="Center" />
+                    <Label
+                        Text="Toca '+ Agregar fotos' y luego añade el widget 'Mis Fotos' en la pantalla de inicio de tu teléfono."
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"
+                        TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="12" VerticalItemSpacing="12" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="x:String">
+                    <Border
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="1"
+                        HeightRequest="180">
+                        <Grid>
+                            <Image
+                                Source="{Binding .}"
+                                Aspect="AspectFill" />
+
+                            <Grid
+                                VerticalOptions="End"
+                                HorizontalOptions="Fill"
+                                ColumnDefinitions="*, Auto"
+                                BackgroundColor="#99000000"
+                                Padding="6"
+                                ColumnSpacing="6">
+                                <Button
+                                    Grid.Column="0"
+                                    Text="Mostrar ahora"
+                                    Clicked="OnSelectPhotoForWidgetClicked"
+                                    CommandParameter="{Binding .}"
+                                    FontSize="11"
+                                    Padding="8,4"
+                                    HeightRequest="32"
+                                    HorizontalOptions="Start" />
+                                <Button
+                                    Grid.Column="1"
+                                    Text="✕"
+                                    Clicked="OnRemovePhotoClicked"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="#D9534F"
+                                    TextColor="White"
+                                    FontSize="12"
+                                    Padding="8,4"
+                                    WidthRequest="36"
+                                    HeightRequest="32" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>
